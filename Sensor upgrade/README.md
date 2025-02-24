@@ -11,8 +11,8 @@ This information will be used by the **PQC Insight AI Engine** to analyze compat
 
 ## Scripts
 
-- **PowerShell Script (`check_pqc.ps1`)** – For Windows systems  
-- **Bash Script (`check_pqc.sh`)** – For Linux servers  
+- **PowerShell Script (`Check-PQC-Support-Win.ps1`)** – For Windows systems  
+- **Bash Script (`Check-PQC-Support-Linux.sh`)** – For Linux servers  
 
 ### Features
 
@@ -28,7 +28,7 @@ This information will be used by the **PQC Insight AI Engine** to analyze compat
 1. Open PowerShell and run:  
    ```powershell
    Set-ExecutionPolicy Unrestricted -Scope Process -Force
-   .\check_pqc.ps1 -Server yourserver.com -Port 443
+   .\Check-PQC-Support-Win.ps1 -Server yourserver.com -Port 443
    
 ### Linux (Bash)
 
@@ -37,7 +37,7 @@ This information will be used by the **PQC Insight AI Engine** to analyze compat
 	chmod +x check_pqc.sh
 2. Run the script:
 
-        ./check_pqc.sh yourserver.com 443
+        ./Check-PQC-Support-Linux.sh yourserver.com 443
         
 ##  Next Steps
 
