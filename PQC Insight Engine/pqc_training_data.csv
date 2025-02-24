@@ -1,0 +1,5 @@
+OS Type,Crypto Library,Web Server,Cert Type,PQC Compatible,Best PQC Algorithm,Upgrade Steps
+Ubuntu 22.04,OpenSSL 3.0+,Nginx,RSA-2048,Yes,CRYSTALS-DILITHIUM,None
+Windows 2019,Schannel,IIS,ECC P-384,No,Falcon,"Upgrade Schannel, Enable PQC Ciphers"
+Ubuntu 20.04,OpenSSL 1.1.1,Apache,RSA-2048,No,CRYSTALS-DILITHIUM,Upgrade OpenSSL to v3.0; Modify Apache config
+F5 BIG-IP,Custom TLS,F5,RSA-4096,No,SPHINCS+,"Upgrade TMOS, Enable PQC Support"
