@@ -3,9 +3,6 @@
 ## 📌 Overview
 This directory contains a **static HTML mockup** demonstrating how the **PQC Insight AI Engine** integrates into the **DigiCert DC1 platform**. The UI changes reflect how **PQC compatibility insights** are presented to users within the DC1 certificate management interface.
 
-## 📂 Directory Structure
-```
-
 ## 🌍 Purpose of This UI Mockup
 - **Visual Representation**: Demonstrates how **PQC Insight** results appear in DC1.
 - **New PQC Insight Tab**: Adds a dedicated tab to display **PQC compatibility**, recommendations, and upgrade steps.
