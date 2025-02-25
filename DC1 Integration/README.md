@@ -15,7 +15,7 @@ This directory contains a **static HTML mockup** demonstrating how the **PQC Ins
 
 ## 🔗 How to Use
 To view the mockup in a browser:
-1. Open `static_ui.html` in any modern web browser.
+1. Open `index.html` in any modern web browser.
 2. Navigate to a discovered certificate entry.
 3. Click on the **PQC Insight** tab to see PQC compatibility details.
 
