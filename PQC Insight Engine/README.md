@@ -1,58 +1,57 @@
 # PQC Insight AI Engine
 
 ## 🔍 Overview
-The **PQC Insight AI Engine** is an AI-powered tool designed to analyze server environments and determine their **compatibility with Post-Quantum Cryptography (PQC)**. It assesses cryptographic libraries, certificate types, and TLS configurations to:
+The **PQC Insight AI Engine** is an AI-powered tool designed to analyze server environments and determine their **compatibility with Post-Quantum Cryptography (PQC)**. It utilizes machine learning models trained on historical cryptographic data to:
 
 - Identify whether a server currently supports **PQC algorithms**.
-- Recommend the **best PQC algorithm** based on the detected environment.
-- Provide **step-by-step guidance** on enabling PQC if the server is not yet compatible.
+- Recommend the **best PQC algorithm** based on detected configurations.
+- Provide **steps to enable PQC** if the server is not yet compatible.
 
 ## 🚀 Features
-✔ **Scans servers** for TLS settings, certificates, and crypto libraries.  
-✔ **Uses AI** to predict **PQC readiness** based on historical data.  
-✔ **Recommends migration steps** for non-compatible environments.  
-✔ **Integrates with existing security tools** to automate PQC assessment.  
-✔ Outputs structured **JSON reports** for easy integration with security systems.  
+✔ **AI-driven PQC compatibility assessment**  
+✔ **Model trained on historical cryptographic data**  
+✔ **Recommends optimal PQC algorithms**  
+✔ **Provides steps to enable PQC where needed**  
+✔ **Outputs structured JSON results**  
 
-## 🛠 Integration with Scanning Solutions
-The AI engine integrates with **TLS scanning tools** and **certificate management platforms** to provide real-time insights.
+## 📡 Components & Workflow
 
-### 📡 Components & Workflow
-1️⃣ **Scanning Module** (`scan_pqc_support.py`)  
-   - Performs server analysis via **TLS handshake** and **certificate parsing**.  
-   - Extracts cryptographic details (e.g., OpenSSL version, certificate type).  
+1️⃣ **Training Module** (`train_model.py`)  
+   - Processes `dataset.csv` to train a model on cryptographic environments.  
+   - Uses machine learning to understand patterns in PQC compatibility.  
 
 2️⃣ **AI Analysis Module** (`pqc_analyze.py`)  
-   - Uses **machine learning** to predict PQC compatibility.  
-   - Matches results against a **training dataset** of known server configurations.  
+   - Takes input parameters (OS type, crypto library, certificate type).  
+   - Uses the trained model to determine PQC compatibility and recommend an algorithm.  
 
-3️⃣ **JSON Report Generator**  
-   - Outputs structured data indicating PQC readiness, recommended algorithms, and migration steps.  
+3️⃣ **API Module** (`api.py`)  
+   - Provides a REST API for querying PQC compatibility analysis.  
+   - Accepts structured input and returns JSON-formatted results.  
 
 ## 📂 Project Structure
 ```
 📦 PQC_Insight_AI
-├── 📜 scan_pqc_support.py  # Scans TLS certificates & cryptographic stack
-├── 📜 pqc_analyze.py        # AI engine for PQC readiness analysis
 ├── 📜 train_model.py        # Model training script
-├── 📜 dataset.csv           # Training dataset for PQC support
+├── 📜 pqc_analyze.py        # AI-based PQC analysis
+├── 📜 api.py                # API for PQC assessment
+├── 📜 dataset.csv           # Training dataset
 ├── 📜 requirements.txt      # Required dependencies
 ├── 📜 README.md             # Project documentation
-└── 📜 config.json           # Configuration file for integration
+└── 📜 config.json           # Configuration file
 ```
 
 ## 📊 Training Dataset (`dataset.csv`)
-The dataset contains historical information on server configurations, cryptographic libraries, and PQC support.
+The dataset contains cryptographic configurations, OS details, and PQC compatibility indicators.
 
 ### Example Data Structure:
-| OS Type       | Crypto Library | Web Server | Cert Type  | PQC Compatible | Recommended Algorithm | Steps to Enable PQC |
-|--------------|---------------|------------|------------|----------------|------------------------|----------------------|
-| Ubuntu 20.04 | OpenSSL 1.1.1 | Apache     | RSA-2048   | No             | CRYSTALS-DILITHIUM     | Upgrade OpenSSL 3.0 |
-| Windows      | Schannel      | IIS        | ECDSA      | No             | -                      | Use OpenSSL Wrapper |
-| Ubuntu 22.04 | OpenSSL 3.0   | Nginx      | RSA-3072   | Yes            | Falcon                 | -                    |
+| OS Type       | Crypto Library | Cert Type  | PQC Compatible | Recommended Algorithm | Steps to Enable PQC |
+|--------------|---------------|------------|----------------|------------------------|----------------------|
+| Ubuntu 20.04 | OpenSSL 1.1.1 | RSA-2048   | No             | CRYSTALS-DILITHIUM     | Upgrade OpenSSL 3.0 |
+| Windows      | Schannel      | ECDSA      | No             | -                      | Use OpenSSL Wrapper |
+| Ubuntu 22.04 | OpenSSL 3.0   | RSA-3072   | Yes            | Falcon                 | -                    |
 
 ## 📚 Training the AI Model (`train_model.py`)
-The AI model is trained using historical server configurations and cryptographic settings.
+The AI model is trained using historical cryptographic environments.
 
 ### Steps to Train the Model:
 1. Ensure `dataset.csv` is up-to-date with recent PQC adoption trends.
@@ -60,28 +59,27 @@ The AI model is trained using historical server configurations and cryptographic
    ```sh
    python train_model.py
    ```
-3. The model learns patterns and predicts PQC compatibility for new servers.
-4. Save the trained model (`pqc_model.pkl`) for use in analysis.
+3. The model learns compatibility patterns and saves a trained model (`pqc_model.pkl`).
 
 ## 📌 Running the PQC Analysis (`pqc_analyze.py`)
-To analyze a new server for PQC support, run:
+To analyze PQC support for a given environment, run:
 ```sh
-python pqc_analyze.py --server example.com --port 443
+python pqc_analyze.py --os "Ubuntu 20.04" --crypto "OpenSSL 1.1.1" --cert "RSA-2048"
 ```
-### Example Output (Server NOT PQC Ready)
+### Example Output (Not PQC Ready)
 ```json
 {
-    "server": "example.com",
+    "os": "Ubuntu 20.04",
     "crypto_library": "OpenSSL 1.1.1",
     "pqc_supported": "No",
     "recommended_pqc_algorithm": "CRYSTALS-DILITHIUM",
     "steps_to_enable_pqc": ["Upgrade OpenSSL to 3.0"]
 }
 ```
-### Example Output (Server PQC Ready)
+### Example Output (PQC Ready)
 ```json
 {
-    "server": "pqctest.com",
+    "os": "Ubuntu 22.04",
     "crypto_library": "OpenSSL 3.0+",
     "pqc_supported": "Yes",
     "recommended_pqc_algorithm": "Falcon",
@@ -89,15 +87,33 @@ python pqc_analyze.py --server example.com --port 443
 }
 ```
 
+## 📌 Running the API (`api.py`)
+To query the AI engine via API, run:
+```sh
+python api.py
+```
+Then, send a request:
+```sh
+curl -X POST http://127.0.0.1:5000/analyze -H "Content-Type: application/json" -d '{"os": "Ubuntu 20.04", "crypto_library": "OpenSSL 1.1.1", "cert_type": "RSA-2048"}'
+```
+### Example API Response
+```json
+{
+    "pqc_supported": "No",
+    "recommended_pqc_algorithm": "CRYSTALS-DILITHIUM",
+    "steps_to_enable_pqc": ["Upgrade OpenSSL to 3.0"]
+}
+```
+
 ## 🔗 Future Enhancements
-✅ **Expand AI dataset** with real-world PQC-supported servers.  
-✅ **Integrate with DigiCert APIs** for real-time certificate insights.  
-✅ **Automate remediation** for non-PQC-compatible servers.  
+✅ **Expand AI dataset** with real-world PQC adoption data.  
+✅ **Integrate with automated security platforms**.  
+✅ **Enhance AI model for dynamic PQC migration recommendations**.  
 
 ## 💡 Conclusion
-The **PQC Insight AI Engine** is a powerful solution for **post-quantum cryptography readiness assessment**. It provides actionable intelligence, ensuring **future-proof security** in enterprise environments.
+The **PQC Insight AI Engine** is a powerful tool for **post-quantum cryptography readiness assessment**. It provides AI-driven insights for organizations transitioning to **quantum-safe cryptographic environments**.
 
-🔐 **Stay ahead of quantum threats – deploy PQC today!** 🚀
+🔐 **Secure your future today with PQC Insight AI!** 🚀
 
 ## 📬 Questions? Contributions?
 Feel free to reach out or submit issues via GitHub! 🚀
