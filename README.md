@@ -6,18 +6,18 @@ The **PQC Insight AI Engine** is designed to integrate with **DigiCert DC1** to 
 ### 🌍 Solution Components
 This project consists of three main components:
 
-1️⃣ **Sensor Upgrades** (`sensor_upgrades/`)
-   - Enhancements to the **DC1 Sensor** to collect PQC support data.
-   - Extracts cryptographic libraries and environment details.
-   - Sends PQC-relevant data to DC1 for AI-based analysis.
-
-2️⃣ **PQC Insight AI Engine** (`pqc_insight_ai_engine/`)
+1️⃣ **PQC Insight AI Engine** (`PQC Insight AI Engine/`)
    - AI-driven analysis of PQC compatibility.
    - Trained model determines if a server is PQC-ready.
    - Provides recommendations and upgrade instructions.
    - Exposes results via an API for integration with DC1.
 
-3️⃣ **DC1 Integration** (`dc1_integration/`)
+2️⃣ **Sensor Upgrades** (`Sensor upgrade/`)
+   - Enhancements to the **DC1 Sensor** to collect PQC support data.
+   - Extracts cryptographic libraries and environment details.
+   - Sends PQC-relevant data to DC1 for AI-based analysis.
+
+3️⃣ **DC1 Integration** (`DC1 Integration/`)
    - Adds a **PQC Insight** tab to discovered certificates in DC1.
    - Displays PQC compatibility, upgrade steps, and recommended algorithms.
    - Future roadmap includes automation to assist with PQC transitions.
