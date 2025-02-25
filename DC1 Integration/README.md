@@ -27,3 +27,4 @@ To view the mockup in a browser:
 🚀 **PQC Insight AI Engine - Making DC1 Future-Ready for Post-Quantum Cryptography!** 🔐
 
 
+![image](https://github.com/user-attachments/assets/c739f379-8cfc-4f70-8971-9ec3b7920ce3)
