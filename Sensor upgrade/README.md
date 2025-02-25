@@ -28,6 +28,9 @@ This information will be used by the **PQC Insight AI Engine** to analyze compat
 1. Open PowerShell and run:  
    ```powershell
    Set-ExecutionPolicy Unrestricted -Scope Process -Force
+   
+2. Run the script:
+
    .\Check-PQC-Support-Win.ps1 -Server yourserver.com -Port 443
    
 ### Linux (Bash)
