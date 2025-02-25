@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust Lifecycle - Inventory</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            font-size: 13px;
+        }
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #f5f7f9;
+        }
+        
+        .container {
+            display: flex;
+            height: 100%;
+        }
+        
+        .sidebar {
+            width: 180px;
+            background-color: #1e2834;
+            color: white;
+            padding-top: 20px;
+        }
+        
+        .sidebar-item {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .sidebar-item.active {
+            background-color: #2c5282;
+        }
+        
+        .sidebar-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .main-content {
+            flex: 1;
+        }
+        
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 20px;
+            border-bottom: 1px solid #e2e8f0;
+            background-color: white;
+            font-size: 14px;
+        }
+        
+        .company-name {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-icons {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-icon {
+            margin-left: 15px;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .inventory-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        h2 {
+            font-size: 18px;
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        .manage-view-btn {
+            padding: 8px 12px;
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        .view-dropdown {
+            width: 200px;
+            padding: 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            margin-left: 20px;
+        }
+        
+        .info-banner {
+            background-color: #f0f5ff;
+            padding: 10px 20px;
+            margin: 0 20px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            background-color: #3182ce;
+            color: white;
+            border-radius: 50%;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .table-container {
+            margin: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 10px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 12px;
+        }
+        
+        th {
+            background-color: #f8fafc;
+            font-weight: 600;
+            color: #4a5568;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        th:hover {
+            background-color: #edf2f7;
+        }
+        
+        .sort-icon {
+            margin-left: 5px;
+        }
+        
+        tr:hover {
+            background-color: #f7fafc;
+            cursor: pointer;
+        }
+        
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-issued {
+            background-color: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .status-expired {
+            background-color: #fed7d7;
+            color: #822727;
+        }
+        
+        .security-warning {
+            color: #e53e3e;
+            display: flex;
+            align-items: center;
+        }
+        
+        .security-icon {
+            margin-right: 5px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            align-items: center;
+        }
+        
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+        }
+        
+        .page-btn {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .page-btn.active {
+            background-color: #3182ce;
+            color: white;
+        }
+        
+        .rows-select {
+            display: flex;
+            align-items: center;
+        }
+        
+        .selected {
+            background-color: #ebf8ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div style="padding: 20px;">
+                <div style="color: white; font-weight: bold; display: flex; align-items: center; font-size: 14px;">
+                    <span style="display: inline-block; width: 24px; height: 24px; margin-right: 8px; background-color: white; color: #1e2834; text-align: center; line-height: 24px; font-weight: bold; border-radius: 2px;">TL</span>
+                    TRUST LIFECYCLE
+                </div>
+            </div>
+            <div class="sidebar-item">
+                <div class="sidebar-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="3" y1="9" x2="21" y2="9"></line>
+                        <line x1="9" y1="21" x2="9" y2="9"></line>
+                    </svg>
+                </div>
+                Dashboard
+            </div>
+            <div class="sidebar-item active">
+                <div class="sidebar-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                    </svg>
+                </div>
+                Inventory
+            </div>
+            <div class="sidebar-item">
+                <div class="sidebar-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+                Enrollments
+            </div>
+            <div class="sidebar-item">
+                <div class="sidebar-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                </div>
+                Policies
+            </div>
+            <div class="sidebar-item">
+                <div class="sidebar-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                    </svg>
+                </div>
+                Integrations
+            </div>
+            <div class="sidebar-item">
+                <div class="sidebar-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                    </svg>
+                </div>
+                Discovery & automation tools
+            </div>
+            <div class="sidebar-item">
+                <div class="sidebar-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                </div>
+                Reporting
+            </div>
+            <div class="sidebar-item">
+                <div class="sidebar-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                Account
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="top-nav">
+                <div class="company-name">
+                    <span>Inventory</span>
+                </div>
+                <div class="user-icons">
+                    <div style="margin-right: 10px;">Khosravi Inc</div>
+                    <div class="user-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                    </div>
+                    <div class="user-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </div>
+                    <div class="user-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4a5568" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1"></circle>
+                            <circle cx="19" cy="12" r="1"></circle>
+                            <circle cx="5" cy="12" r="1"></circle>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="inventory-header">
+                <h2>Inventory</h2>
+                <div class="manage-view-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                    Manage view
+                </div>
+            </div>
+            
+            <div>
+                <select class="view-dropdown">
+                    <option>Views: Discovery</option>
+                </select>
+            </div>
+            
+            <div class="info-banner">
+                <div class="info-icon">i</div>
+                <span>This table (with pagination) can retrieve and display a maximum of 1000 records, use the filtering options to narrow your search.</span>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" class="checkbox"></th>
+                            <th>Common name <span class="sort-icon">↓</span></th>
+                            <th>Business unit <span class="sort-icon">↓</span></th>
+                            <th>SANs <span class="sort-icon">↓</span></th>
+                            <th>Seat ID <span class="sort-icon">↓</span></th>
+                            <th>Seat type <span class="sort-icon">↓</span></th>
+                            <th>Security rating <span class="sort-icon">↓</span></th>
+                            <th>Status <span class="sort-icon">↓</span></th>
+                            <th>Thumbprint (SHA-256) <span class="sort-icon">↓</span></th>
+                            <th>Valid from <span class="sort-icon">↓</span></th>
+                            <th>Valid to <span class="sort-icon">↓</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-row" data-id="4" data-name="Test CSR CA - MS Root">
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td>Test CSR CA - MS Root</td>
+                            <td>Khosravi Business Unit</td>
+                            <td>—</td>
+                            <td>Test CSR CA - MS Root_23May15_tBmSjF</td>
+                            <td>Discovery</td>
+                            <td>—</td>
+                            <td><span class="status-badge status-issued">Issued</span></td>
+                            <td>42e53065e391e47...</td>
+                            <td>17 Apr 2023</td>
+                            <td>17 Apr 2025</td>
+                        </tr>
+                        <tr class="table-row" data-id="5" data-name="tces-mcars">
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td>tces-mcars</td>
+                            <td>Unassigned</td>
+                            <td>tces-mcars</td>
+                            <td>tces-mcars_23May15_jQeGra</td>
+                            <td>Discovery</td>
+                            <td>—</td>
+                            <td><span class="status-badge status-issued">Issued</span></td>
+                            <td>21ec11d8048ac87...</td>
+                            <td>03 May 2023</td>
+                            <td>03 May 2026</td>
+                        </tr>
+                        <tr class="table-row" data-id="6" data-name="WIN-TBQV42ADQSD.test.com">
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td>WIN-TBQV42ADQSD.test.com</td>
+                            <td>Khosravi Business Unit</td>
+                            <td>WIN-TBQV42ADQSD.test.com</td>
+                            <td>WIN-TBQV42ADQSD.test.com_23May15_lOkVy</td>
+                            <td>Discovery</td>
+                            <td>—</td>
+                            <td><span class="status-badge status-expired">Expired</span></td>
+                            <td>3b69d7244da9aa3...</td>
+                            <td>15 May 2023</td>
+                            <td>14 May 2024</td>
+                        </tr>
+                        <tr class="table-row" data-id="7" data-name="digi-WIN-HOTAVMDMTJA-CA">
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td>digi-WIN-HOTAVMDMTJA-CA</td>
+                            <td>Unassigned</td>
+                            <td>—</td>
+                            <td>digi-WIN-HOTAVMDMTJA-CA_24Dec12_StdBPU</td>
+                            <td>Discovery</td>
+                            <td class="security-warning"><span class="security-icon">⚠</span> Not secure</td>
+                            <td><span class="status-badge status-issued">Issued</span></td>
+                            <td>b6a3135208a65f...</td>
+                            <td>24 Oct 2024</td>
+                            <td>24 Oct 2034</td>
+                        </tr>
+                        <tr class="table-row" data-id="8" data-name="WIN-HOTAVMDMTJA.digi.local">
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td>WIN-HOTAVMDMTJA.digi.local</td>
+                            <td>Unassigned</td>
+                            <td>WIN-HOTAVMDMTJA.digi.local</td>
+                            <td>WIN-HOTAVMDMTJA.digi.local_24Nov05_VNkvo</td>
+                            <td>Discovery</td>
+                            <td class="security-warning"><span class="security-icon">⚠</span> Not secure</td>
+                            <td><span class="status-badge status-issued">Issued</span></td>
+                            <td>c1067a3a3e4e7fa1...</td>
+                            <td>24 Oct 2024</td>
+                            <td>24 Oct 2025</td>
+                        </tr>
+                        <tr class="table-row" data-id="9" data-name="localhost">
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td>localhost</td>
+                            <td>Khosravi Business Unit</td>
+                            <td>localhost</td>
+                            <td>localhost_24Nov05_s4uqgy</td>
+                            <td>Discovery</td>
+                            <td class="security-warning"><span class="security-icon">⚠</span> Not secure</td>
+                            <td><span class="status-badge status-issued">Issued</span></td>
+                            <td>af87c4f8e9243264...</td>
+                            <td>04 Nov 2024</td>
+                            <td>04 Nov 2026</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="pagination">
+                <div>Showing 6 of 6</div>
+                <div class="pagination-controls">
+                    <div class="page-btn">←</div>
+                    <div class="page-btn active">1</div>
+                    <div class="page-btn">→</div>
+                </div>
+                <div class="rows-select">
+                    Rows per page: 
+                    <select style="margin-left: 10px;">
+                        <option>10</option>
+                        <option>20</option>
+                        <option>50</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Make table rows clickable with redirect to details.html
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableRows = document.querySelectorAll('.table-row');
+            const checkboxes = document.querySelectorAll('.checkbox');
+            
+            // Handle row clicks
+            tableRows.forEach(row => {
+                row.addEventListener('click', function(event) {
+                    // Don't trigger row click if checkbox was clicked
+                    if (event.target.type === 'checkbox') return;
+                    
+                    // Get row data for redirect
+                    const id = this.getAttribute('data-id');
+                    const name = this.getAttribute('data-name') || '';
+                    
+                    // Redirect to details.html with parameters
+                    window.location.href = `details.html?id=${id}&name=${encodeURIComponent(name)}`;
+                });
+            });
+            
+            // Handle checkbox clicks
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('click', function(event) {
+                    // Stop the click event from propagating to the row
+                    event.stopPropagation();
+                });
+            });
+            
+            // Handle header checkbox to select all rows
+            const headerCheckbox = document.querySelector('thead .checkbox');
+            if (headerCheckbox) {
+                headerCheckbox.addEventListener('click', function() {
+                    const isChecked = this.checked;
+                    const rowCheckboxes = document.querySelectorAll('tbody .checkbox');
+                    
+                    rowCheckboxes.forEach(checkbox => {
+                        checkbox.checked = isChecked;
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
