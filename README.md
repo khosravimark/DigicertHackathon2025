@@ -47,30 +47,6 @@ This project consists of three main components:
 - The long-term goal is to **automate the PQC transition process**.
 - DC1 will provide upgrade guidance and eventually **automate cryptographic migration**.
 
-## 📂 Project Structure
-```
-📦 PQC_DC1_Integration
-├── 📁 sensor_upgrades        # Enhancements for DC1 Sensor
-│   ├── capture_pqc_data.py  # Script to extract PQC support info
-│   ├── sensor_config.json   # Sensor configuration updates
-│   ├── README.md            # Sensor documentation
-│
-├── 📁 pqc_insight_ai_engine  # AI-powered PQC analysis
-│   ├── train_model.py       # AI model training script
-│   ├── pqc_analyze.py       # AI analysis script
-│   ├── api.py               # API for PQC assessment
-│   ├── dataset.csv          # Training dataset
-│   ├── README.md            # AI Engine documentation
-│
-├── 📁 dc1_integration        # DC1 UI enhancements
-│   ├── static_ui.html       # Mockup of PQC Insight tab in DC1
-│   ├── integration_notes.md # Steps to integrate with DC1
-│   ├── README.md            # DC1 UI documentation
-│
-├── requirements.txt         # Dependencies for the AI engine
-├── README.md                # Main project documentation
-└── config.json              # Configuration file
-```
 
 ## 📌 Running the PQC Insight AI Engine
 To train the model:
